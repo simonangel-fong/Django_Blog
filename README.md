@@ -1,6 +1,15 @@
 # blog-project
 
-A project to learn web technique, such as html and django by building an easy blog website.
+- A project to learn web technique, such as html and django by building an easy blog website.
+  - ref: [Udemy - Python and Django Full Stack Web Developer Bootcamp](https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp)
+
+---
+
+## 4. Form
+
+- [x] AppBlog.forms.py
+
+---
 
 ## 3. Model Design
 
