@@ -3,6 +3,21 @@
 - A project to learn web technique, such as html and django by building an easy blog website.
   - ref: [Udemy - Python and Django Full Stack Web Developer Bootcamp](https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp)
 
+- Functionalities:
+  - [ ] Post: Crud
+  - [ ] Comment: Crud
+  - [ ] User: login, logout
+  - [ ] User: register
+  - [ ] User: post mgmt
+
+---
+
+## 5. Common Web
+
+- [x] Home
+- [x] about
+- [x] static
+
 ---
 
 ## 4. Form
