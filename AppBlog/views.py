@@ -8,6 +8,7 @@ from .models import Post
 
 
 class BlogListView(ListView):
+    ''' Blog list view '''
     model = Post
 
     def get_context_data(self, **kwargs):
@@ -18,6 +19,8 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
+    ''' Blog detail view '''
+
     model = Post
 
     def get_context_data(self, **kwargs):
@@ -28,28 +31,32 @@ class BlogDetailView(DetailView):
 
 
 class BlogCreateView(CreateView):
+    ''' Blog Create View '''
     model = Post
-    form_class = PostForm
+    form_class = PostForm       # The form class to instantiate.
+    # The URL to redirect to when the form is successfully processed.
     success_url = reverse_lazy('AppBlog:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Post Add"
-        context["heading"] = "Post Add"
-        # context["form"] = PostForm
+        context["title"] = "New Post"
+        context["heading"] = "New Post"
         return context
 
 
 class BlogUpdateView(UpdateView):
     model = Post
     form_class = PostForm
-    success_url = reverse_lazy('AppBlog:list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Post Add"
         context["heading"] = "Post Add"
         return context
+
+    # Sets the URL to redirect to when the form is successfully processed.
+    def get_success_url(self):
+        return reverse_lazy('AppBlog:detail', kwargs={'pk': self.object.pk})
 
 
 class BlogDeleteView(DeleteView):

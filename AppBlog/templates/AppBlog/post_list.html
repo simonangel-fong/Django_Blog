@@ -1,10 +1,22 @@
 {% extends "layout/base.html" %} {% block main %}
-<h1>{{heading}}</h1>
+<header>
+  <h1 class="heading text-center">{{heading}}</h1>
+</header>
 
 {% for post in post_list %}
 <div class="row">
   <div class="col-8">
-    <h3><a href="{% url 'AppBlog:detail' pk=post.pk %}">{{ post.title }}</a></h3>
+    <article class="py-4">
+      <h3 class="display-6 link-body-emphasis mb-2 heading">
+        <a href="{% url 'AppBlog:detail' pk=post.pk %}"> {{post.title}} </a>
+      </h3>
+      <p class="fw-normal text-body-secondary">
+        {{post.created_date|date:'F d, Y'}} by <a href="#">{{post.author}}</a>
+      </p>
+
+      <p>{{post.content|safe|linebreaks|truncatewords_html:72}}</p>
+    </article>
   </div>
 </div>
+
 {% endfor %} {% endblock %}

@@ -1,8 +1,36 @@
 {% extends "layout/base.html" %} {% block main %}
-<h1>{{heading}}</h1>
-<p>{{post.title}}</p>
-<p>{{post.content|safe|linebreaks}}</p>
+<header>
+  <h1 class="heading text-center">{{heading}}</h1>
+  <hr>
+</header>
+<div class="row">
+  <div class="col-8">
+    <article class="py-4">
+      <h3 class="display-4 link-body-emphasis mb-2 heading">{{post.title}}</h3>
+      <p class="fw-normal text-body-secondary py-2">
+        {{post.created_date|date:'F d, Y'}} by <a href="#">{{post.author}}</a>
+      </p>
+      <p>{{post.content|safe|linebreaks}}</p>
+    </article>
+    <hr class="py-3" />
+    <div class="d-flex">
+      <a
+        class="btn btn-outline-secondary rounded-pill me-auto"
+        href="{% url 'AppBlog:list' %}"
+        >Back</a
+      >
+      <a
+        class="btn btn-outline-primary rounded-pill me-3"
+        href="{% url 'AppBlog:update' post.pk %}"
+        >Update</a
+      >
+      <a
+        class="btn btn-outline-danger rounded-pill"
+        href="{% url 'AppBlog:delete' post.pk %}"
+        >Delete</a
+      >
+    </div>
+  </div>
+</div>
 
-<a class="btn btn-primary" href="{% url 'AppBlog:update' post.pk %}">Update</a>
-<a class="btn btn-danger" href="{% url 'AppBlog:delete' post.pk %}">Delete</a>
 {% endblock %}

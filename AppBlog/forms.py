@@ -10,10 +10,10 @@ class PostForm(forms.ModelForm):
         # set widgets for fields
         widgets = {
             "title": forms.TextInput(
-                attrs={"class": "textinputclass"}
+                attrs={"class": "form-control"}
             ),
             "content": forms.Textarea(
-                attrs={"class": "editable medium-editor-textarea postcontent"}
+                attrs={"class": "form-control editor", "rows": "3"}
             )
         }
 
