@@ -1,3 +1,8 @@
-.body {
-  min-height: 1vh;
+body {
+  height: 100%; /* needed for container min-height */
 }
+
+main {
+  min-height: 470px;
+}
+

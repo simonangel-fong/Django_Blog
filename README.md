@@ -12,6 +12,26 @@
 
 ---
 
+## 7. Functionality: Comment
+
+- [ ] List
+- [ ] Detail
+- [ ] Create
+- [ ] Update
+- [ ] Delete
+
+---
+
+## 6. Functionality: Post
+
+- [x] List
+- [x] Detail
+- [x] Create
+- [x] Update
+- [x] Delete
+
+---
+
 ## 5. Common Web
 
 - [x] Home
