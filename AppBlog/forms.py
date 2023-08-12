@@ -6,7 +6,7 @@ class PostForm(forms.ModelForm):
     ''' The form to submit a post '''
     class Meta:
         model = Post
-        fields = ("author", "title", "content")
+        fields = ("title", "content")
         # set widgets for fields
         widgets = {
             "title": forms.TextInput(

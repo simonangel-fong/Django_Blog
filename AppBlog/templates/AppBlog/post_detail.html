@@ -19,6 +19,7 @@
         href="{% url 'AppBlog:list' %}"
         >Back</a
       >
+      {% if user.is_authenticated %}
       <a
         class="btn btn-outline-primary rounded-pill me-3"
         href="{% url 'AppBlog:update' post.pk %}"
@@ -29,6 +30,7 @@
         href="{% url 'AppBlog:delete' post.pk %}"
         >Delete</a
       >
+      {% endif %}
     </div>
   </div>
 </div>

@@ -30,7 +30,7 @@ class BlogDetailView(DetailView):
         return context
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     ''' Blog Create View '''
     model = Post
     form_class = PostForm       # The form class to instantiate.
@@ -43,8 +43,14 @@ class BlogCreateView(CreateView):
         context["heading"] = "New Post"
         return context
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        form.save()
+        return super(BlogCreateView, self).form_valid(form)
 
-class BlogUpdateView(UpdateView):
+
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
 
@@ -59,7 +65,7 @@ class BlogUpdateView(UpdateView):
         return reverse_lazy('AppBlog:detail', kwargs={'pk': self.object.pk})
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('AppBlog:list')
 

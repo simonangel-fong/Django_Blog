@@ -4,21 +4,27 @@
   - ref: [Udemy - Python and Django Full Stack Web Developer Bootcamp](https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp)
 
 - Functionalities:
-  - [ ] Post: Crud
+  - [x] Post: Crud
   - [ ] Comment: Crud
-  - [ ] User: login, logout
+  - [x] User: login, logout
   - [ ] User: register
   - [ ] User: post mgmt
 
 ---
 
-## 7. Functionality: Comment
+## 8. Functionality: Comment
 
-- [ ] List
-- [ ] Detail
-- [ ] Create
-- [ ] Update
-- [ ] Delete
+- [ ] create
+- [ ] list
+- [ ] approved
+
+---
+
+## 7. Functionality: User
+
+- [x] Signup
+- [x] login
+- [x] logout
 
 ---
 
