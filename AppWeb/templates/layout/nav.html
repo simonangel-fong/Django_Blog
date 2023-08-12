@@ -20,11 +20,28 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'AppBlog:list' %}">Post</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'AppBlog:create' %}">New Post</a>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Post
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="nav-link" href="{% url 'AppBlog:list' %}">Post List</a>
+            </li>
+            <li>
+              <a class="nav-link" href="{% url 'AppBlog:draft_list' %}">Draft List</a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="nav-link" href="{% url 'AppBlog:create' %}">New Post</a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'AppWeb:about' %}">About</a>

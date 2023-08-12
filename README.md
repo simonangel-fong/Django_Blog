@@ -7,16 +7,24 @@
   - [x] Post: Crud
   - [ ] Comment: Crud
   - [x] User: login, logout
-  - [ ] User: register
-  - [ ] User: post mgmt
+  - [x] User: register
+  - [x] User: post mgmt
 
 ---
 
-## 8. Functionality: Comment
+## 9. Functionality: Comment
 
 - [ ] create
 - [ ] list
-- [ ] approved
+- [ ] approve
+- [ ] delete
+
+---
+
+## 8. Functionality: publish
+
+- [x] publish
+- [x] draft_list
 
 ---
 

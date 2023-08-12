@@ -1,15 +1,42 @@
-from django.shortcuts import render
+from typing import Any
+from django.db.models.query import QuerySet
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, CreateView, DetailView, UpdateView, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm
 from .models import Post
+from django.contrib.auth.decorators import login_required
 
 
-class BlogListView(ListView):
+class DraftListView(LoginRequiredMixin, ListView):
     ''' Blog list view '''
     model = Post
+    template_name = "AppBlog/post_draft_list.html"
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return Post.objects.filter(
+            published_date__isnull=True,
+            author=self.request.user
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Draft List"
+        context["heading"] = "Draft List"
+        return context
+
+
+class BlogListView(LoginRequiredMixin, ListView):
+    ''' Blog list view '''
+    model = Post
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            published_date__isnull=False,
+            author=self.request.user
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,3 +101,11 @@ class BlogDeleteView(LoginRequiredMixin, DeleteView):
         context["title"] = "Post Delete"
         context["heading"] = "Post Delete"
         return context
+
+
+@login_required
+def post_publish(request, pk):
+    '''  '''
+    post = get_object_or_404(Post, pk=pk)
+    post.publish()
+    return redirect('AppBlog:detail', pk=pk)

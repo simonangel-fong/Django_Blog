@@ -3,7 +3,6 @@
   <h1 class="heading text-center">{{heading}}</h1>
   <hr />
 </header>
-
 <div class="container p-4">
   {% for post in post_list %}
   <div class="row">
@@ -15,13 +14,13 @@
         <p class="fw-normal text-body-secondary">
           {{post.created_date|date:'F d, Y'}} by <a href="#">{{post.author}}</a>
         </p>
-  
+
         <p>{{post.content|safe|linebreaks|truncatewords_html:72}}</p>
       </article>
     </div>
   </div>
   {% empty %}
-  <p class="fs-4">No published post.</p>
+  <p class="fs-4">No draft data.</p>
   {% endfor %}
 </div>
- {% endblock %}
+{% endblock %}

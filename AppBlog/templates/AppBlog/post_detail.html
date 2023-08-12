@@ -1,14 +1,26 @@
 {% extends "layout/base.html" %} {% block main %}
 <header>
-  <h1 class="heading text-center">{{heading}}</h1>
-  <hr>
+  {% if post.published_date %}
+  <h1 class="heading text-center">Post Detail</h1>
+  {% else %}
+  <h1 class="heading text-center">Draft Detail</h1>
+  {% endif %}
+  <hr />
 </header>
 <div class="row">
   <div class="col-8">
     <article class="py-4">
       <h3 class="display-4 link-body-emphasis mb-2 heading">{{post.title}}</h3>
-      <p class="fw-normal text-body-secondary py-2">
+      <p class="d-flex fw-normal text-body-secondary py-2">
         {{post.created_date|date:'F d, Y'}} by <a href="#">{{post.author}}</a>
+          {% if post.published_date %}
+            <small class="ms-3">Published<i class="bi bi-check-lg"></i></small>
+          {% else %}
+            <a class="btn btn-success btn-sm ms-3" href="{% url 'AppBlog:publish' pk=post.pk %}">
+              Publish this post
+            </a>
+          {% endif %}
+        </span>
       </p>
       <p>{{post.content|safe|linebreaks}}</p>
     </article>
