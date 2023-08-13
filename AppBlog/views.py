@@ -5,8 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, CreateView, DetailView, UpdateView, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import PostForm
-from .models import Post
+from .forms import PostForm, CommentForm
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
 
 
@@ -45,16 +45,18 @@ class BlogListView(LoginRequiredMixin, ListView):
         return context
 
 
-class BlogDetailView(DetailView):
-    ''' Blog detail view '''
-
-    model = Post
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Post Detail"
-        context["heading"] = "Post Detail"
-        return context
+def post_detail(request, pk):
+    '''  '''
+    post = get_object_or_404(Post, pk=pk)
+    comment_list = post.comment_set.all()
+    context = {
+        "title": "Post Detail",
+        "heading": "Post Detail",
+        "post": post,
+        "comment_list": comment_list,
+        "form": CommentForm()
+    }
+    return render(request, 'AppBlog/post_detail.html', context)
 
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
@@ -109,3 +111,34 @@ def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
     return redirect('AppBlog:detail', pk=pk)
+
+
+@login_required
+def comment_add(request, post_pk):
+    '''  '''
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            newComm = form.save(commit=False)
+            post = get_object_or_404(Post, pk=post_pk)
+            newComm.post = post
+            newComm.save()
+            return redirect("AppBlog:detail", pk=post_pk)
+        else:
+            form = CommentForm()
+    return render(request, 'AppBlog/post_detail.html', {'form': form})
+
+
+@login_required
+def comment_approve(request, post_pk, comm_pk):
+    comment = get_object_or_404(Comment, pk=comm_pk)
+    comment.approve()
+    return redirect('AppBlog:detail', pk=post_pk)
+
+
+@login_required
+def comment_delete(request, post_pk, comm_pk):
+    comment = get_object_or_404(Comment, pk=comm_pk)
+    result = comment.delete()
+    print(result)
+    return redirect('AppBlog:detail', pk=post_pk)

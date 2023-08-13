@@ -2,25 +2,44 @@
 <header>
   <h1 class="heading text-center">{{heading}}</h1>
   <hr />
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis" href="{% url 'AppWeb:home' %}">
+          <i class="bi bi-house-door-fill"></i>
+          <span class="visually-hidden">Home</span>
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a
+          class="link-body-emphasis fw-semibold text-decoration-none"
+          href="{% url 'AppBlog:list' %}"
+          >Post List</a
+        >
+      </li>
+      {% if form.instance.pk %}
+      <li class="breadcrumb-item active" aria-current="page">Edit Post</li>
+      {% else %}
+      <li class="breadcrumb-item active" aria-current="page">New Post</li>
+      {% endif %}
+    </ol>
+  </nav>
 </header>
 
-<div class="row">
+<div class="row py-3">
   <div class="col-8">
     <form method="post" class="needs-validation">
-      {% csrf_token %} 
+      {% csrf_token %}
       <!-- {{form.author}} -->
-      {% if form.author.errors %}
-      {{form.author.errors}}
-      {% endif %}
+      {% if form.author.errors %} {{form.author.errors}} {% endif %}
       <div class="mb-3">
-        <label for="id_title" class="form-label">Title</label>
-        {{form.title}} {% if form.title.errors %}
-        {% endif %}
+        <label for="id_title" class="label form-label">Title</label>
+        {{form.title}} {% if form.title.errors %} {% endif %}
         <small class="text-danger">{{form.title.errors}}</small>
       </div>
 
       <div class="mb-3">
-        <label for="id_content" class="form-label">Post Content</label>
+        <label for="id_content" class="label form-label">Post Content</label>
         {{form.content}} {% if form.content.errors %}
         <small class="text-danger">{{form.content.errors}}</small>
         {% endif %}
@@ -56,6 +75,7 @@
   </div>
 </div>
 
+{% endblock %} {% block js %}
 <script>
   tinymce.init({
     selector: ".editor",

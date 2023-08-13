@@ -5,19 +5,27 @@
 
 - Functionalities:
   - [x] Post: Crud
-  - [ ] Comment: Crud
+  - [x] Comment: Crud
   - [x] User: login, logout
   - [x] User: register
   - [x] User: post mgmt
 
 ---
 
+10. Functionality: Board
+
+- [ ] home
+- [ ] detail
+- [ ] comment
+
+---
+
 ## 9. Functionality: Comment
 
-- [ ] create
-- [ ] list
-- [ ] approve
-- [ ] delete
+- [x] create
+- [x] list
+- [x] approve
+- [x] delete
 
 ---
 
