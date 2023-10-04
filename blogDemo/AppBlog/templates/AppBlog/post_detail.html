@@ -1,0 +1,179 @@
+{% extends "layout/base.html" %} {% block main %}
+<header>
+  {% if post.published_date %}
+  <h1 class="heading text-center">Post Detail</h1>
+  {% else %}
+  <h1 class="heading text-center">Draft Detail</h1>
+  {% endif %}
+  <hr />
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-chevron py-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis" href="{% url 'home' %}">
+          <i class="bi bi-house-door-fill"></i>
+          <span class="visually-hidden">Home</span>
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a
+          class="link-body-emphasis fw-semibold text-decoration-none"
+          href="{% url 'AppBlog:list' %}"
+          >Post List</a
+        >
+      </li>
+      {% if post.published_date %}
+      <li class="breadcrumb-item active" aria-current="page">Post Detail</li>
+      {% else %}
+      <li class="breadcrumb-item active" aria-current="page">Draft Detail</li>
+      {% endif %}
+    </ol>
+  </nav>
+</header>
+
+<div class="row">
+  <div class="col-8">
+    <div class="row">
+      <div class="col-12 py-4">
+        <!-- article -->
+        <article id="article" class="py-4">
+          <h3 class="display-4 link-body-emphasis mb-2 heading">
+            {{post.title}}
+          </h3>
+          <p class="d-flex fw-normal text-body-secondary py-2">
+            <span class="me-2">{{post.created_date|date:'F d, Y'}} by</span>
+            <a href="#">{{post.author}}</a>
+            {% if post.published_date %}
+            <small class="ms-3">Published<i class="bi bi-check-lg"></i></small>
+            {% else %}
+            <a
+              class="btn btn-success btn-sm ms-3"
+              href="{% url 'AppBlog:publish' pk=post.pk %}"
+            >
+              Publish this post
+            </a>
+            {% endif %}
+          </p>
+          <p>{{post.content|safe|linebreaks}}</p>
+        </article>
+      </div>
+
+      <!-- button -->
+      <div class="col-12 py-4">
+        <div class="d-flex">
+          {% if user.is_authenticated %}
+          <a
+            class="btn btn-outline-secondary rounded-pill me-auto"
+            href="{% url 'AppBlog:list' %}"
+            >Back</a
+          >
+          <a
+            class="btn btn-outline-primary rounded-pill me-3"
+            href="{% url 'AppBlog:update' post.pk %}"
+            >Update</a
+          >
+          <a
+            class="btn btn-outline-danger rounded-pill"
+            href="{% url 'AppBlog:delete' post.pk %}"
+            >Delete</a
+          >
+          {% endif %}
+        </div>
+      </div>
+
+      <hr class="py-2" />
+
+      <!-- comment form -->
+      {% if post.published_date %}
+      <div class="col-12 py-3">
+        <!-- <form class="col-12" action="{% url 'AppBlog:comment_add' post.pk %}" method="post"> -->
+        <form
+          action="{% url 'AppBlog:comment_add' post_pk=post.pk %}"
+          method="post"
+          novalidate
+        >
+          {% csrf_token %}
+          <div class="py-3">
+            <label for="id_author" class="label form-label col-auto"
+              >Commenter</label
+            >
+            {{form.author}} {{form.author.errors}}
+          </div>
+
+          {{form.content.error}}
+          <div class="py-3">
+            <label for="id_content" class="label form-label">Comment</label>
+            {{form.content}}
+          </div>
+          <div class="d-flex py-3">
+            <button
+              class="btn btn-outline-secondary rounded-pill ms-auto"
+              type="reset"
+            >
+              Reset
+            </button>
+            <button
+              class="btn btn-outline-primary rounded-pill ms-2"
+              type="submit"
+            >
+              Comment
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card shadow-sm col-12 p-3">
+        <div class="card-body text-body-secondary">
+          <h5 class="card-title label py-3 border-bottom">Comments: {{comment_list.count}}</h5>
+          <ul class="list-group list-group-flush">
+            {% for comment in comment_list %}
+            <li class="list-group-item text-body-secondary">
+              <div class="row">
+                <div class="col-12">
+                  <div class="d-flex">
+                    <i class="fs-4 bi bi-person-circle"></i>
+                    <span class="ms-2 align-self-center">
+                      <strong>@{{comment.author}} </strong>
+                      {{comment.created_date}}
+                    </span>
+                    <div class="align-self-center ms-auto">
+                      {% if not comment.is_approved %}
+                      <a
+                        class="btn btn-sm btn-outline-success rounded-pill"
+                        href="{% url 'AppBlog:comment_approve' post_pk=post.pk comm_pk=comment.pk %}"
+                        >Approve</a
+                      >
+                      {% else %}
+                      <i class="bi bi-check-lg"></i>
+                      Approved {% endif %}
+                      <a
+                        class="btn btn-sm btn-outline-danger rounded-pill"
+                        href="{% url 'AppBlog:comment_delete' post_pk=post.pk comm_pk=comment.pk %}"
+                        >Delete</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">{{comment.content|safe|linebreaks}}</div>
+              </div>
+            </li>
+            {% empty %}
+            <li>
+              <p class="p-3 small lh-sm">No comment.</p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      {% endif %}
+
+      {% endblock %} {% block js %}
+      <script>
+        tinymce.init({
+          selector: ".editor",
+        });
+      </script>
+      {% endblock %}
+    </div>
+  </div>
+</div>
